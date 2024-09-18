@@ -105,6 +105,28 @@ void datos_no_agrupados(TIPO *arr, TIPO *new_arr, int *fi, double *hi,
   print_tabla_no_agrupados(new_arr, fi, hi, pi, Fi, Hi, Pi, new_n);
 }
 
+void agrupar_datos(TIPO dato_min, int cant_intervalos, double amplitud,
+                   TIPO **agrupados, double *xi) {
+  // Caso inicial
+  agrupados[0][0] = dato_min;
+  agrupados[0][1] = agrupados[0][0] + amplitud;
+  xi[0] = (agrupados[0][0] + agrupados[0][1]) / 2.0;
+  // Demas casos
+  for (int i = 1; i < cant_intervalos; ++i) {
+    agrupados[i][0] = agrupados[i - 1][1];
+    agrupados[i][1] = agrupados[i][0] + amplitud;
+    xi[i] = (agrupados[0][0] + agrupados[0][1]) / 2.0;
+  }
+}
+
+void datos_agrupados(TIPO *arr, TIPO *new_arr, TIPO **agrupados, TIPO xi,
+                     int *fi, double *hi, double *pi, int *Fi, double *Hi,
+                     double *Pi, int n, int new_n) {
+  TIPO rango = arr[n - 1] - arr[0];
+  int cant_intervalos = ceil(1 + 3.22 * log(n));
+  double amplitud = rango * 1.0 / cant_intervalos;
+}
+
 int main() {
   TIPO *arr = (TIPO *)malloc(MAX * sizeof(TIPO));
   int n = 0, new_n = 0;
